@@ -13,13 +13,14 @@ public class Reserva {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name="usuario_id")
+    @JoinColumn(name="usuario_id", nullable = false)
     private Usuario usuario;
 
     @ManyToOne
-    @JoinColumn(name="viaje_id")
+    @JoinColumn(name="viaje_id", nullable = false)
     private Viaje viaje;
 
+    @Column(name = "fecha_reserva")
     private LocalDate fechaReserva;
 
     @Enumerated(EnumType.STRING)

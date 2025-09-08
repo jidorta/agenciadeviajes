@@ -13,8 +13,12 @@ public class Viaje {
     private Long id;
 
     private String destino;
-    private String fechaSalida;
-    private String fechaRegreso;
+
+    @Column(name = "fecha_inicio")
+    private String fechaInicio;
+
+    @Column(name = "fecha_fin")
+    private String fechaFin;
     private Double precio;
     private int plazasDisponibles;
     private String descripcion;
@@ -25,11 +29,11 @@ public class Viaje {
     public Viaje() {
     }
 
-    public Viaje(Long id, String destino, String fechaSalida, String fechaRegreso, Double precio, int plazasDisponibles, String descripcion, List<Reserva> reservas) {
+    public Viaje(Long id, String destino, String fechaInicio, String fechaFin, Double precio, int plazasDisponibles, String descripcion, List<Reserva> reservas) {
         this.id = id;
         this.destino = destino;
-        this.fechaSalida = fechaSalida;
-        this.fechaRegreso = fechaRegreso;
+        this.fechaInicio = fechaInicio;
+        this.fechaFin = fechaFin;
         this.precio = precio;
         this.plazasDisponibles = plazasDisponibles;
         this.descripcion = descripcion;
@@ -52,20 +56,20 @@ public class Viaje {
         this.destino = destino;
     }
 
-    public String getFechaSalida() {
-        return fechaSalida;
+    public String getFechaInicio() {
+        return fechaInicio;
     }
 
-    public void setFechaSalida(String fechaSalida) {
-        this.fechaSalida = fechaSalida;
+    public void setFechaInicio(String fechaInicio) {
+        this.fechaInicio = fechaInicio;
     }
 
-    public String getFechaRegreso() {
-        return fechaRegreso;
+    public String getFechaFin() {
+        return fechaFin;
     }
 
-    public void setFechaRegreso(String fechaRegreso) {
-        this.fechaRegreso = fechaRegreso;
+    public void setFechaFin(String fechaFin) {
+        this.fechaFin = fechaFin;
     }
 
     public Double getPrecio() {
