@@ -23,7 +23,6 @@ public class ViajeService {
     }
 
 
-
     public Viaje buscarPorId(Long id){
         return viajeRepository.findById(id)
                 .orElseThrow(()->new ResourceNotFoundException("Usuario con id" + id + "no encontrado"));
@@ -43,13 +42,7 @@ public class ViajeService {
         return viajeRepository.save(viaje);
     }
 
-    public Usuario actualizarUsuario(Long id, Usuario detalles){
-        Usuario usuario = buscarPorId(id);
-        usuario.setNombre(detalles.getNombre());
-        usuario.setEmail(detalles.getEmail());
-        usuario.setTelefono(detalles.getTelefono());
-        return usuarioRepository.save(usuario);
-    }
+
 
     public boolean eliminarViaje(Long id){
         return viajeRepository.findById(id).map(viaje->{
