@@ -25,7 +25,7 @@ public class ViajeService {
 
     public Viaje buscarPorId(Long id){
         return viajeRepository.findById(id)
-                .orElseThrow(()->new ResourceNotFoundException("Usuario con id" + id + "no encontrado"));
+                .orElseThrow(()->new ResourceNotFoundException("Viaje con id" + id + "no encontrado"));
 
     }
 

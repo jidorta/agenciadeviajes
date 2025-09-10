@@ -2,6 +2,7 @@ package com.agenciaviajes.agenciaviajes.model;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -15,10 +16,10 @@ public class Viaje {
     private String destino;
 
     @Column(name = "fecha_inicio")
-    private String fechaInicio;
+    private LocalDate fechaInicio;
 
     @Column(name = "fecha_fin")
-    private String fechaFin;
+    private LocalDate fechaFin;
     private Double precio;
     private int plazasDisponibles;
     private String descripcion;
@@ -28,8 +29,13 @@ public class Viaje {
 
     public Viaje() {
     }
-
-    public Viaje(Long id, String destino, String fechaInicio, String fechaFin, Double precio, int plazasDisponibles, String descripcion, List<Reserva> reservas) {
+    public Viaje(String destino, LocalDate fechaInicio, LocalDate fechaFin, Double precio) {
+        this.destino = destino;
+        this.fechaInicio = fechaInicio;
+        this.fechaFin = fechaFin;
+        this.precio = precio;
+    }
+    public Viaje(Long id, String destino, LocalDate fechaInicio, LocalDate fechaFin, Double precio, int plazasDisponibles, String descripcion, List<Reserva> reservas) {
         this.id = id;
         this.destino = destino;
         this.fechaInicio = fechaInicio;
@@ -38,6 +44,12 @@ public class Viaje {
         this.plazasDisponibles = plazasDisponibles;
         this.descripcion = descripcion;
         this.reservas = reservas;
+    }
+
+    public Viaje(long l, String londres, LocalDate of, LocalDate of1, double v) {
+    }
+
+    public Viaje(long l, String parís, double v) {
     }
 
     public Long getId() {
@@ -56,19 +68,19 @@ public class Viaje {
         this.destino = destino;
     }
 
-    public String getFechaInicio() {
+    public LocalDate getFechaInicio() {
         return fechaInicio;
     }
 
-    public void setFechaInicio(String fechaInicio) {
+    public void setFechaInicio(LocalDate fechaInicio) {
         this.fechaInicio = fechaInicio;
     }
 
-    public String getFechaFin() {
+    public LocalDate getFechaFin() {
         return fechaFin;
     }
 
-    public void setFechaFin(String fechaFin) {
+    public void setFechaFin(LocalDate fechaFin) {
         this.fechaFin = fechaFin;
     }
 
@@ -102,5 +114,17 @@ public class Viaje {
 
     public void setReservas(List<Reserva> reservas) {
         this.reservas = reservas;
+    }
+
+    // --- toString ---
+    @Override
+    public String toString() {
+        return "Viaje{" +
+                "id=" + id +
+                ", destino='" + destino + '\'' +
+                ", fechaInicio=" + fechaInicio +
+                ", fechaFin=" + fechaFin +
+                ", precio=" + precio +
+                '}';
     }
 }
