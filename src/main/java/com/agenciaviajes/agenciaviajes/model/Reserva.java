@@ -98,4 +98,14 @@ public class Reserva {
     public void setPago(Pago pago) {
         this.pago = pago;
     }
+
+    @Override
+    public String toString(){
+        return "Reserva{" +
+                "id=" + id +
+                ", estado=" + estado +
+                ", usuario=" + (usuario != null ? usuario.getNombre() : "null") +
+                ", viaje=" + (viaje != null ? viaje.getDestino() : "null") +
+                '}';
+    }
 }

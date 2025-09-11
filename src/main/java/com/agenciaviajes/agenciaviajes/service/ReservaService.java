@@ -42,4 +42,18 @@ public class ReservaService {
         reservaRepository.delete(reserva);
     }
 
+    public Reserva guardarReserva(Reserva reserva){
+        return reservaRepository.save(reserva);
+    }
+
+    //Obtener reserva por ID
+    public Reserva obtenerReservaPorId(Long id){
+        return reservaRepository.findById(id)
+                .orElse(null);
+    }
+
+    public List<Reserva> obtenerTodasLasReservas(){
+        return reservaRepository.findAll();
+    }
+
 }
