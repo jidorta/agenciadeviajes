@@ -38,22 +38,41 @@ public class ReservaService {
     }
 
     public void eliminarReserva(Long id){
-        Reserva reserva = buscarPorId(id);
+       Reserva reserva = obtenerReservaPorId(id);
         reservaRepository.delete(reserva);
     }
 
     public Reserva guardarReserva(Reserva reserva){
-        return reservaRepository.save(reserva);
+        // Asegurarse de que usuario y viaje no sean nulos y ya persistidos
+        if (reserva.getUsuario() == null || reserva.getUsuario().getId() == null) {
+            throw new IllegalArgumentException("El usuario debe estar persistido");
+        }
+        if (reserva.getViaje() == null || reserva.getViaje().getId() == null) {
+            throw new IllegalArgumentException("El viaje debe estar persistido");
+        }
+
+        // Guardar reserva
+        return reservaRepository.save(reserva); // devuelve el objeto con ID asignad
     }
 
     //Obtener reserva por ID
     public Reserva obtenerReservaPorId(Long id){
         return reservaRepository.findById(id)
-                .orElse(null);
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "Reserva con id " + id + " no encontrada"));
     }
 
     public List<Reserva> obtenerTodasLasReservas(){
         return reservaRepository.findAll();
+    }
+
+    public List<Reserva> listarREservasPorUsuario(Long usuarioId){
+        return reservaRepository.findByUsuarioId(usuarioId);
+    }
+
+    //Listar todas las reservas de un viaje
+    public List<Reserva>listarReservasPorViaje(Long viajeId){
+        return reservaRepository.findByViajeId(viajeId);
     }
 
 }

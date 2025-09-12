@@ -23,14 +23,23 @@ public class Usuario {
     public Usuario() {
     }
 
-    public Usuario(Long id, String nombre, String email, String password, String telefono, List<Reserva> reservas) {
+    public Usuario(String nombre, String email, String password, String telefono) {
+        this.nombre = nombre;
+        this.email = email;
+        this.password = password;
+        this.telefono = telefono;
+    }
+
+    // Para recuperar un usuario de BD con id
+    public Usuario(Long id, String nombre, String email, String password, String telefono) {
         this.id = id;
         this.nombre = nombre;
         this.email = email;
         this.password = password;
         this.telefono = telefono;
-        this.reservas = reservas;
     }
+
+
 
     public Long getId() {
         return id;

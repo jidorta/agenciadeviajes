@@ -12,7 +12,7 @@ public class Reserva {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     @JoinColumn(name="usuario_id", nullable = false)
     private Usuario usuario;
 
@@ -41,6 +41,14 @@ public class Reserva {
         this.estado = estado;
         this.numerodePlazas = numerodePlazas;
         this.pago = pago;
+    }
+
+    public Reserva(Usuario usuario, Viaje viaje) {
+        this.usuario = usuario;
+        this.viaje = viaje;
+        this.fechaReserva = LocalDate.now(); // por ejemplo
+        this.estado = EstadoReserva.PENDIENTE; // si tienes un valor por defecto
+        this.numerodePlazas = 1; // si quieres un valor inicial
     }
 
     public Long getId() {

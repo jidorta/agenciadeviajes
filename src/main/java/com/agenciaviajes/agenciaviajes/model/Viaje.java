@@ -48,8 +48,13 @@ public class Viaje {
 
     public Viaje(long l, String londres, LocalDate of, LocalDate of1, double v) {
     }
+    public Viaje( String londres, LocalDate of, LocalDate of1, double v) {
+    }
 
     public Viaje(long l, String parís, double v) {
+    }
+
+    public Viaje(String viajeAParís, String parís, double v) {
     }
 
     public Long getId() {
