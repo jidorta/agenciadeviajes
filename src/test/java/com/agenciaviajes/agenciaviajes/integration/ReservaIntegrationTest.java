@@ -15,6 +15,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDate;
 import java.util.concurrent.atomic.AtomicReference;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -92,7 +94,8 @@ public class ReservaIntegrationTest {
         Usuario usuario = usuarioService.guardarUsuario(
                 new Usuario("Ana Gómez", "ana@example.com", "1234", "600987654"));
         Viaje viaje = viajeService.crearViaje(
-                new Viaje("Viaje a París", "París", 500.0));
+                new Viaje("París",  LocalDate.now().plusDays(1),
+                        LocalDate.now().plusDays(7),  500.0));
 
         // Crear y guardar reserva
         Reserva reserva = new Reserva(usuario, viaje);

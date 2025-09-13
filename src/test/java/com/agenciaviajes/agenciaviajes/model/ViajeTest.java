@@ -23,7 +23,8 @@ public class ViajeTest {
 
     @Test
     void testSetters() {
-        Viaje viaje = new Viaje(1L, "Roma", 500.0);
+        Viaje viaje = new Viaje( "Roma",LocalDate.now().plusDays(1),
+                LocalDate.now().plusDays(7), 500.0);
 
         viaje.setId(2L);
         viaje.setDestino("París");

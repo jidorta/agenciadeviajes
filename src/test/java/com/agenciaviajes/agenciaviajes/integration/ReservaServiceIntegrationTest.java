@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -37,7 +38,8 @@ public class ReservaServiceIntegrationTest {
     @BeforeEach
     void setUp(){
         usuario = usuarioService.guardarUsuario(new Usuario("Ana Gómez", "ana@example.com", "1234", "600987654"));
-        viaje = viajeService.crearViaje(new Viaje("Viaje a París", "París", 500.0));
+        viaje = viajeService.crearViaje(new Viaje("París", LocalDate.now().plusDays(1),
+                LocalDate.now().plusDays(7),  500.0));
     }
 
 
@@ -48,7 +50,8 @@ public class ReservaServiceIntegrationTest {
                 new Usuario("Ana Gómez", "ana@example.com", "1234", "600987654"));
 
         Viaje viaje = viajeService.crearViaje(
-                new Viaje("Viaje a París", "París", 500.0));
+                new Viaje("París", LocalDate.now().plusDays(1),
+                        LocalDate.now().plusDays(7),  500.0));
 
         // Crear reserva
         Reserva reserva = new Reserva(usuario, viaje);
@@ -89,9 +92,11 @@ public class ReservaServiceIntegrationTest {
 
         // Crear y guardar viajes
         Viaje viaje1 = viajeService.crearViaje(
-                new Viaje("Viaje a Roma", "Roma", 300.0));
+                new Viaje("Roma", LocalDate.now().plusDays(1),
+                        LocalDate.now().plusDays(7),  300.0));
         Viaje viaje2 = viajeService.crearViaje(
-                new Viaje("Viaje a Londres", "Londres", 450.0));
+                new Viaje("Londres", LocalDate.now().plusDays(1),
+                        LocalDate.now().plusDays(7),  450.0));
 
         // Crear y guardar reservas
         Reserva reserva1 = reservaService.guardarReserva(new Reserva(usuario,viaje1));
@@ -113,7 +118,8 @@ public class ReservaServiceIntegrationTest {
         //Crear y guardar usuario y viaje
         Usuario usuario = usuarioService.guardarUsuario(
                 new Usuario("Ana Gómez", "ana@example.com", "1234", "600987654"));
-        Viaje viaje = viajeService.crearViaje(new Viaje("Viaje a París", "París", 500.0));
+        Viaje viaje = viajeService.crearViaje(new Viaje("París", LocalDate.now().plusDays(1),
+                LocalDate.now().plusDays(7),  500.0));
 
         //Crear y guardar reserva
         Reserva reserva = new Reserva(usuario,viaje);
@@ -135,8 +141,10 @@ public class ReservaServiceIntegrationTest {
         Usuario usuario1 = usuarioService.guardarUsuario(new Usuario("Ana Gómez", "ana@example.com", "1234", "600987654"));
         Usuario usuario2 = usuarioService.guardarUsuario(new Usuario("Pedro López", "pedro@example.com", "abcd", "600123456"));
 
-        Viaje viaje1 = viajeService.crearViaje(new Viaje("Viaje a París", "París", 500.0));
-        Viaje viaje2 = viajeService.crearViaje(new Viaje("Viaje a Roma", "Roma", 600.0));
+        Viaje viaje1 = viajeService.crearViaje(new Viaje( "París", LocalDate.now().plusDays(1),
+                LocalDate.now().plusDays(7),  500.0));
+        Viaje viaje2 = viajeService.crearViaje(new Viaje( "Roma", LocalDate.now().plusDays(1),
+                LocalDate.now().plusDays(7),  600.0));
 
         //Crear y guardar reservas
         Reserva reserva1 = reservaService.guardarReserva(new Reserva(usuario1, viaje1));
@@ -157,7 +165,8 @@ public class ReservaServiceIntegrationTest {
 
         //Crear y guardar usuario y viaje
         Usuario usuario = usuarioService.guardarUsuario(new Usuario("Ana Gómez", "ana@example.com", "1234", "600987654"));
-        Viaje viaje = viajeService.crearViaje(new Viaje("Viaje a Paris","Paris", 500.0));
+        Viaje viaje = viajeService.crearViaje(new Viaje("Paris",  LocalDate.now().plusDays(1),
+                LocalDate.now().plusDays(7),  500.0));
 
         //Guardar reserva
         Reserva reserva = reservaService.guardarReserva(new Reserva(usuario,viaje));
@@ -178,8 +187,10 @@ public class ReservaServiceIntegrationTest {
 
         Usuario usuario = usuarioService.guardarUsuario(
                 new Usuario("Carlos López", "carlos@example.com", "abcd", "600123456"));
-        Viaje viaje1 = viajeService.crearViaje(new Viaje("Viaje a Londres", "Londres", 400.0));
-        Viaje viaje2 = viajeService.crearViaje(new Viaje("Viaje a Roma", "Roma", 450.0));
+        Viaje viaje1 = viajeService.crearViaje(new Viaje( "Londres", LocalDate.now().plusDays(1),
+                LocalDate.now().plusDays(7),  400.0));
+        Viaje viaje2 = viajeService.crearViaje(new Viaje("Roma", LocalDate.now().plusDays(1),
+                LocalDate.now().plusDays(7),  450.0));
 
         //Guardar reservas
         reservaService.guardarReserva(new Reserva(usuario, viaje1));
@@ -196,4 +207,31 @@ public class ReservaServiceIntegrationTest {
     }
 
 
+    @Test
+    void testActualizarReserva() {
+        Usuario usuario = usuarioService.guardarUsuario(new Usuario("Carlos López", "carlos@example.com", "abcd", "600111222"));
+        Viaje viaje = viajeService.crearViaje(
+                new Viaje("Barcelona", LocalDate.now().plusDays(5), LocalDate.now().plusDays(10), 120.0));
+
+        Viaje viaje2 = viajeService.crearViaje(
+                new Viaje("Sevilla", LocalDate.now().plusDays(15), LocalDate.now().plusDays(20), 150.0)
+        );
+
+        //Crear y guardar reserva
+        Reserva reserva =new Reserva(usuario,viaje,2);
+        reserva.setEstado(EstadoReserva.CONFIRMADA);
+        Reserva guardada = reservaService.guardarReserva(reserva);
+
+        guardada.setNumerodePlazas(4);
+        Reserva actualizada = reservaService.actualizarReserva(reserva.getId(), guardada);
+
+        //Verificar
+        assertNotNull(actualizada);
+        assertEquals("Carlos López", actualizada.getUsuario().getNombre(),
+                "El nombre del usuario debe haberse actualizado");
+        assertEquals("Barcelona", actualizada.getViaje().getDestino(),
+                "El destino del viaje debe haberse actualizado");
+        assertEquals(EstadoReserva.CONFIRMADA, actualizada.getEstado(),
+                "El estado debe haberse actualizado");
+    }
 }

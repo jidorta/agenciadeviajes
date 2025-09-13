@@ -51,6 +51,13 @@ public class Reserva {
         this.numerodePlazas = 1; // si quieres un valor inicial
     }
 
+    public Reserva(Usuario usuario,Viaje viaje,int numerodePlazas){
+        this.usuario = usuario;
+        this.viaje = viaje;
+        this.numerodePlazas = numerodePlazas;
+
+    }
+
     public Long getId() {
         return id;
     }
