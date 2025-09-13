@@ -8,10 +8,13 @@ import com.agenciaviajes.agenciaviajes.model.Viaje;
 import com.agenciaviajes.agenciaviajes.service.ReservaService;
 import com.agenciaviajes.agenciaviajes.service.UsuarioService;
 import com.agenciaviajes.agenciaviajes.service.ViajeService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -27,6 +30,16 @@ public class ReservaServiceIntegrationTest {
 
     @Autowired
     private ViajeService viajeService;
+
+    private Usuario usuario;
+    private Viaje viaje;
+
+    @BeforeEach
+    void setUp(){
+        usuario = usuarioService.guardarUsuario(new Usuario("Ana Gómez", "ana@example.com", "1234", "600987654"));
+        viaje = viajeService.crearViaje(new Viaje("Viaje a París", "París", 500.0));
+    }
+
 
     @Test
     void testGuardarReserva() {
@@ -57,5 +70,62 @@ public class ReservaServiceIntegrationTest {
         // Comprobar que al buscar lanza excepción
         assertThrows(ResourceNotFoundException.class,
                 () -> reservaService.obtenerReservaPorId(reserva.getId()));
+    }
+
+    @Test
+    void testEliminarReserva(){
+        Reserva reserva = reservaService.guardarReserva(new Reserva(usuario,viaje));
+        Long id = reserva.getId();
+        reservaService.eliminarReserva(id);
+        assertThrows(ResourceNotFoundException.class, () ->reservaService.obtenerReservaPorId(id));
+    }
+
+    @Test
+    @Transactional
+    void testListarReservas(){
+        //Crear y guardar usuario
+        Usuario usuario = usuarioService.guardarUsuario(
+                new Usuario("Carlos Pérez", "carlos@example.com", "1234", "600111222"));
+
+        // Crear y guardar viajes
+        Viaje viaje1 = viajeService.crearViaje(
+                new Viaje("Viaje a Roma", "Roma", 300.0));
+        Viaje viaje2 = viajeService.crearViaje(
+                new Viaje("Viaje a Londres", "Londres", 450.0));
+
+        // Crear y guardar reservas
+        Reserva reserva1 = reservaService.guardarReserva(new Reserva(usuario,viaje1));
+        Reserva reserva2 = reservaService.guardarReserva(new Reserva(usuario,viaje2));
+
+        //Ejecutar
+        List<Reserva> reservas = reservaService.listarTodas();
+
+        //Verificar
+        assertNotNull(reservas);
+        assertTrue(reservas.size()>=2, "Debe haber al menos 2 reservas guardadas");
+        assertTrue(reservas.stream().anyMatch(r ->r.getId().equals(reserva1.getId())));
+        assertTrue(reservas.stream().anyMatch(r -> r.getId().equals(reserva2.getId())));
+    }
+
+    @Test
+    void testObtenerReservaPorId_existe(){
+
+        //Crear y guardar usuario y viaje
+        Usuario usuario = usuarioService.guardarUsuario(
+                new Usuario("Ana Gómez", "ana@example.com", "1234", "600987654"));
+        Viaje viaje = viajeService.crearViaje(new Viaje("Viaje a París", "París", 500.0));
+
+        //Crear y guardar reserva
+        Reserva reserva = new Reserva(usuario,viaje);
+        reservaService.guardarReserva(reserva);
+
+        //Obtener reserva por ID
+        Reserva encontrada = reservaService.obtenerReservaPorId(reserva.getId());
+
+        //Comprobar que se ha encontrado correctamente
+        assertNotNull(encontrada, "La reserva debe existir");
+        assertEquals(reserva.getId(), encontrada.getId(), "El ID debe coincidir");
+        assertEquals(usuario.getId(), encontrada.getUsuario().getId(), "El usuario debe coincidir");
+        assertEquals(viaje.getId(), encontrada.getViaje().getId(), "El viaje debe coincidir");
     }
 }
