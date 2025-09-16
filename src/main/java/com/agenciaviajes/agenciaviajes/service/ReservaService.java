@@ -26,7 +26,10 @@ public class ReservaService {
   }
 
     public Reserva crearReserva(Reserva reserva){
-        return reservaRepository.save(reserva);
+        System.out.println("Reserva a guardar" + reserva.getId());
+        Reserva guardada = reservaRepository.save(reserva);
+        System.out.println("Reserva guardada -> " + guardada.getId());
+        return guardada;
     }
 
     public Reserva actualizarReserva(Long id, Reserva detalles){

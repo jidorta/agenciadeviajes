@@ -9,7 +9,12 @@ import java.time.LocalDate;
 public class Reserva {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(
+            name = "reserva_seq",
+            sequenceName = "reserva_seq",
+            allocationSize = 1
+    )
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "reserva_seq")
     private Long id;
 
     @ManyToOne(optional = false)

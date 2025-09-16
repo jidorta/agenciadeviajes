@@ -23,6 +23,12 @@ public class Usuario {
     public Usuario() {
     }
 
+    public Usuario(Long id, String nombre, String email) {
+        this.id = id;
+        this.nombre = nombre;
+        this.email = email;
+    }
+
     public Usuario(String nombre, String email, String password, String telefono) {
         this.nombre = nombre;
         this.email = email;
